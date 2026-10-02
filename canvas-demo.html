@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas 动画演示 —— 绽放的花</title>
+<style>
+  body { margin: 0; overflow: hidden; background: #2b1e3f; font-family: sans-serif; }
+  canvas { display: block; cursor: pointer; }
+  #tip {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    color: #ffe9f2; background: rgba(0,0,0,.35); padding: 8px 18px;
+    border-radius: 999px; font-size: 14px; pointer-events: none;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="tip">点击任意位置，绽放一束花瓣 ✿</div>
+
+<script>
+// ========== 画布初始化 ==========
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ========== 主花对象 ==========
+const flower = {
+  x: W / 2, y: H * 0.55,       // 花的位置
+  bloom: 0,                     // 绽放进度 0(花苞) → 1(完全盛开)
+};
+
+// ========== 花瓣粒子数组 ==========
+// 两种粒子：主花的固定花瓣 + 飘落的花瓣
+let petals = [];      // 飘落的自由花瓣
+let bursts = [];      // 点击生成的爆炸花瓣
+
+// 生成一片自由飘落的花瓣
+function spawnFallingPetal() {
+  petals.push({
+    x: Math.random() * W,
+    y: -20,
+    size: 5 + Math.random() * 8,
+    vx: (Math.random() - 0.5) * 1.5,   // 水平飘移
+    vy: 1 + Math.random() * 2,         // 下落速度
+    sway: Math.random() * Math.PI * 2, // 摆动相位
+    rot: Math.random() * Math.PI * 2,  // 初始旋转
+    spin: (Math.random() - 0.5) * 0.08,// 自转速度
+    color: `hsl(${330 + Math.random() * 20}, 70%, ${70 + Math.random() * 15}%)`,
+  });
+}
+
+// 点击时生成一束花瓣（粒子系统）
+function spawnBurst(x, y) {
+  const n = 24; // 花瓣数量
+  for (let i = 0; i < n; i++) {
+    const angle = (Math.PI * 2 / n) * i + Math.random() * 0.3;
+    const speed = 2 + Math.random() * 4;
+    bursts.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1,                       // 生命值 1 → 0
+      size: 6 + Math.random() * 7,
+      rot: angle,
+      spin: (Math.random() - 0.5) * 0.2,
+      color: `hsl(${320 + Math.random() * 40}, 75%, 72%)`,
+    });
+  }
+}
+canvas.addEventListener('click', (e) => spawnBurst(e.clientX, e.clientY));
+
+// ========== 绘制一片花瓣（椭圆带渐变） ==========
+function drawPetal(x, y, len, wid, rot, color) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  // 花瓣形状：上窄下宽的椭圆
+  ctx.beginPath();
+  ctx.ellipse(0, -len / 2, wid, len / 2, 0, 0, Math.PI * 2);
+  const g = ctx.createLinearGradient(0, -len / 2, 0, len / 2);
+  g.addColorStop(0, color);
+  g.addColorStop(1, shade(color, -25)); // 根部略深
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.restore();
+}
+
+// 把 hsl 颜色调暗/调亮一点
+function shade(hsl, amount) {
+  const m = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+  if (!m) return hsl;
+  const l = Math.max(0, Math.min(100, +m[3] + amount));
+  return `hsl(${m[1]}, ${m[2]}%, ${l}%)`;
+}
+
+// ========== 绘制主花（8 外层 + 8 内层花瓣 + 花蕊） ==========
+function drawFlower() {
+  const { x, y, bloom } = flower;
+  if (bloom <= 0) return;
+  const petalLen = 70 * bloom;   // 花瓣长度随绽放变大
+  const petalWid = 30 * bloom;
+
+  // 外层 8 片
+  for (let i = 0; i < 8; i++) {
+    const ang = (Math.PI * 2 / 8) * i;
+    drawPetal(x, y, petalLen, petalWid, ang, 'hsl(345, 75%, 70%)');
+  }
+  // 内层 8 片（错位 22.5°）
+  for (let i = 0; i < 8; i++) {
+    const ang = (Math.PI * 2 / 8) * i + Math.PI / 8;
+    drawPetal(x, y, petalLen * 0.7, petalWid * 0.75, ang, 'hsl(350, 80%, 82%)');
+  }
+  // 花蕊
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, 16 * bloom, 0, Math.PI * 2);
+  ctx.fillStyle = 'hsl(45, 90%, 60%)';
+  ctx.fill();
+  ctx.restore();
+}
+
+// ========== 主循环 ==========
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min((now - last) / 1000, 0.05); // 帧间隔（秒），限制上限防跳帧
+  last = now;
+
+  // --- 背景：夜空渐变 ---
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#2b1e3f');
+  bg.addColorStop(1, '#5c3a6e');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // --- 绽放动画：主花慢慢张开 ---
+  flower.x = W / 2; flower.y = H * 0.55;
+  flower.bloom = Math.min(1, flower.bloom + dt * 0.35);
+
+  // --- 画主花 ---
+  drawFlower();
+
+  // --- 生成飘落花瓣（控制数量） ---
+  if (petals.length < 60 && Math.random() < 0.3) spawnFallingPetal();
+
+  // --- 更新并绘制飘落花瓣 ---
+  for (let i = petals.length - 1; i >= 0; i--) {
+    const p = petals[i];
+    p.sway += dt * 1.5;
+    p.x += p.vx + Math.sin(p.sway) * 0.8; // 左右摆动
+    p.y += p.vy;
+    p.rot += p.spin;
+    drawPetal(p.x, p.y, p.size * 2, p.size, p.rot, p.color);
+    if (p.y > H + 30) petals.splice(i, 1); // 落出屏幕则移除
+  }
+
+  // --- 更新并绘制点击爆炸花瓣 ---
+  for (let i = bursts.length - 1; i >= 0; i--) {
+    const b = bursts[i];
+    b.x += b.vx;
+    b.y += b.vy;
+    b.vy += 0.05;          // 微重力
+    b.vx *= 0.98;          // 空气阻力
+    b.life -= dt * 1.2;    // 逐渐消失
+    b.rot += b.spin;
+    ctx.globalAlpha = Math.max(0, b.life);
+    drawPetal(b.x, b.y, b.size * 2, b.size, b.rot, b.color);
+    ctx.globalAlpha = 1;
+    if (b.life <= 0) bursts.splice(i, 1);
+  }
+
+  requestAnimationFrame(loop); // 请求下一帧
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- 花瓣渐变色 -->
+    <radialGradient id="petal" cx="50%" cy="70%" r="75%">
+      <stop offset="0%" stop-color="#ff8fb1"/>
+      <stop offset="55%" stop-color="#ff5c8a"/>
+      <stop offset="100%" stop-color="#e63d6e"/>
+    </radialGradient>
+    <radialGradient id="petalInner" cx="50%" cy="75%" r="70%">
+      <stop offset="0%" stop-color="#ffc2d4"/>
+      <stop offset="100%" stop-color="#ff8fb1"/>
+    </radialGradient>
+    <!-- 花蕊渐变 -->
+    <radialGradient id="center" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fff3a6"/>
+      <stop offset="60%" stop-color="#ffd23f"/>
+      <stop offset="100%" stop-color="#f5a623"/>
+    </radialGradient>
+    <!-- 叶子渐变 -->
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8fd66b"/>
+      <stop offset="100%" stop-color="#4caf50"/>
+    </linearGradient>
+    <!-- 背景渐变 -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdf3f7"/>
+      <stop offset="100%" stop-color="#eaf6ef"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="400" height="500" fill="url(#bg)"/>
+
+  <!-- 茎 -->
+  <path d="M200 190 C200 260, 196 320, 192 430" stroke="#4caf50" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+  <!-- 左叶 -->
+  <path d="M198 320 C160 300, 120 310, 112 340 C140 352, 180 350, 198 322 Z" fill="url(#leaf)"/>
+  <path d="M198 320 C165 320, 135 330, 120 340" stroke="#3d8b40" stroke-width="2" fill="none"/>
+
+  <!-- 右叶 -->
+  <path d="M196 380 C232 360, 268 372, 276 402 C250 412, 212 410, 196 384 Z" fill="url(#leaf)"/>
+  <path d="M196 380 C230 380, 258 390, 272 400" stroke="#3d8b40" stroke-width="2" fill="none"/>
+
+  <!-- 外层花瓣（8片） -->
+  <g fill="url(#petal)">
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(0 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(45 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(90 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(135 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(180 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(225 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(270 200 180)"/>
+    <ellipse cx="200" cy="118" rx="34" ry="62" transform="rotate(315 200 180)"/>
+  </g>
+
+  <!-- 内层花瓣（8片，错位） -->
+  <g fill="url(#petalInner)">
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(22.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(67.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(112.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(157.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(202.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(247.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(292.5 200 180)"/>
+    <ellipse cx="200" cy="138" rx="26" ry="48" transform="rotate(337.5 200 180)"/>
+  </g>
+
+  <!-- 花蕊 -->
+  <circle cx="200" cy="180" r="30" fill="url(#center)"/>
+  <!-- 花蕊点 -->
+  <g fill="#e8a200">
+    <circle cx="188" cy="172" r="3"/>
+    <circle cx="200" cy="168" r="3"/>
+    <circle cx="212" cy="172" r="3"/>
+    <circle cx="206" cy="184" r="3"/>
+    <circle cx="193" cy="186" r="3"/>
+    <circle cx="200" cy="178" r="2.5"/>
+    <circle cx="184" cy="182" r="2.5"/>
+    <circle cx="216" cy="183" r="2.5"/>
+  </g>
+</svg>

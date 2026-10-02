@@ -1,0 +1,18 @@
+# CMake 构建产物
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.o
+*.a
+*.so
+
+# 编译出的可执行文件
+test
+*.out
+
+# IDE / 编辑器
+.vscode/
+.idea/
+*.swp

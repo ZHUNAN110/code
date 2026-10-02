@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- 背景：宣纸质感 -->
+    <linearGradient id="paper" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f4ead8"/>
+      <stop offset="100%" stop-color="#e7d9bd"/>
+    </linearGradient>
+    <!-- 远山墨色 -->
+    <linearGradient id="mountain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b7c4c4"/>
+      <stop offset="100%" stop-color="#8fa3a0"/>
+    </linearGradient>
+    <!-- 头发 -->
+    <linearGradient id="hair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1f"/>
+      <stop offset="100%" stop-color="#2e2e36"/>
+    </linearGradient>
+    <!-- 衣袍外 -->
+    <linearGradient id="robeOut" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a4a55"/>
+      <stop offset="100%" stop-color="#33333d"/>
+    </linearGradient>
+    <!-- 衣袍内 -->
+    <linearGradient id="robeIn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d9c9a8"/>
+      <stop offset="100%" stop-color="#c4b18a"/>
+    </linearGradient>
+    <!-- 红腰带 -->
+    <linearGradient id="sash" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a3322f"/>
+      <stop offset="100%" stop-color="#7c2320"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf6e3"/>
+      <stop offset="100%" stop-color="#efe0c0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="400" height="500" fill="url(#paper)"/>
+
+  <!-- 圆月 -->
+  <circle cx="300" cy="118" r="46" fill="url(#moon)" opacity="0.9"/>
+
+  <!-- 远山 -->
+  <path d="M0 250 C60 210, 100 230, 150 200 C200 170, 240 210, 300 185 C340 168, 380 200, 400 190 L400 260 L0 260 Z" fill="url(#mountain)" opacity="0.55"/>
+
+  <!-- 飘落的梅花瓣 -->
+  <g fill="#d9706a" opacity="0.85">
+    <ellipse cx="88" cy="120" rx="6" ry="4" transform="rotate(30 88 120)"/>
+    <ellipse cx="150" cy="90" rx="5" ry="3.5" transform="rotate(-25 150 90)"/>
+    <ellipse cx="60" cy="210" rx="5" ry="3" transform="rotate(50 60 210)"/>
+    <ellipse cx="330" cy="250" rx="6" ry="4" transform="rotate(-40 330 250)"/>
+    <ellipse cx="120" cy="300" rx="4" ry="2.5" transform="rotate(20 120 300)"/>
+  </g>
+
+  <!-- 人物（侧身半像，面朝右） -->
+  <g>
+    <!-- 后脑与长发 -->
+    <path d="M210 60 C160 60, 120 95, 112 150 C106 195, 108 260, 116 320 C120 350, 126 380, 134 400 L196 400 C180 360, 172 300, 178 240 C182 180, 186 120, 210 60 Z" fill="url(#hair)"/>
+    <!-- 头顶发髻 -->
+    <path d="M196 70 C200 44, 216 30, 238 30 C254 30, 264 40, 266 54 C258 60, 240 66, 222 72 Z" fill="url(#hair)"/>
+    <!-- 发簪 -->
+    <line x1="238" y1="34" x2="288" y2="22" stroke="#b8863a" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="288" cy="22" r="6" fill="#c0392b"/>
+
+    <!-- 面部侧脸 -->
+    <path d="M210 70 C236 72, 258 90, 264 112 C270 136, 266 158, 254 172 C246 180, 238 184, 236 190 C235 196, 238 200, 244 204 C226 206, 212 200, 208 190 L208 70 Z" fill="#f0dcc0"/>
+    <!-- 额头与鼻梁、唇 -->
+    <path d="M264 112 C270 130, 268 148, 260 158" stroke="#c9a87c" stroke-width="2" fill="none"/>
+    <path d="M256 168 C252 172, 250 174, 252 176" stroke="#c9a87c" stroke-width="1.5" fill="none"/>
+    <!-- 眉 -->
+    <path d="M238 108 C248 104, 260 104, 266 108" stroke="#2b2b33" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- 眼 -->
+    <path d="M246 120 C254 116, 262 118, 264 122" stroke="#1a1a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 唇 -->
+    <path d="M252 180 C254 176, 258 176, 260 180 C258 184, 254 184, 252 180 Z" fill="#b05a52"/>
+
+    <!-- 身体 / 衣袍 -->
+    <path d="M178 240 C168 270, 162 320, 158 400 L196 400 C196 360, 196 320, 196 300 L206 300 L206 400 L250 400 C256 340, 258 280, 248 244 Z" fill="url(#robeOut)"/>
+    <!-- 交领内襟 -->
+    <path d="M206 300 L196 300 C196 330, 192 360, 186 400 L226 400 C228 360, 226 330, 222 308 L206 300 Z" fill="url(#robeIn)"/>
+    <!-- 交领线条 -->
+    <path d="M248 244 L206 300 L196 300 L186 320" stroke="#8a7a55" stroke-width="3" fill="none"/>
+    <!-- 红腰带 -->
+    <rect x="178" y="300" width="72" height="14" fill="url(#sash)"/>
+    <rect x="196" y="296" width="12" height="22" fill="url(#sash)" rx="2"/>
+    <!-- 宽袖 -->
+    <path d="M250 244 C268 250, 282 262, 288 278 C282 292, 268 298, 252 296 C246 282, 244 262, 248 244 Z" fill="url(#robeOut)"/>
+  </g>
+</svg>
