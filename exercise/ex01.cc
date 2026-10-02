@@ -1,11 +1,11 @@
 //斐波那契数列
 #include<iostream>
 using namespace std;
-int value(int b)
+int value(int a)
 {
-    if (b<0) return -1;
-    if (b==1 || b==2) return 1;
-    else return value(b-1)+value(b-1);
+    if (a<0) return -1;
+    if (a==1 || a==2) return 1;
+    else return value(a-1)+value(a-1);
 }
 int main()
 {
