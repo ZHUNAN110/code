@@ -1,0 +1,27 @@
+// reos2_test 系统结构图（等价于 rqt_graph 视图，隐藏 /rosout、/parameter_events）
+// 渲染：dot -Tpng rqt_graph.dot -o rqt_graph.png
+digraph rosgraph {
+    rankdir = LR;
+    graph [fontname = "DejaVu Sans", fontsize = 12, labelloc = "t"];
+    node  [fontname = "DejaVu Sans", fontsize = 11];
+    edge  [fontname = "DejaVu Sans", fontsize = 9];
+
+    // —— 话题（矩形） ——
+    "/cmd_vel"          [shape = box, label = "/cmd_vel\ngeometry_msgs/Twist"];
+    "/obstacle"         [shape = box, label = "/obstacle\nmy_custom_msgs/Obstacle"];
+    "/drive_status"     [shape = box, label = "/drive_status\nmy_custom_msgs/DriveStatus"];
+    "/ground_condition" [shape = box, label = "/ground_condition\nmy_custom_msgs/GroundCondition"];
+    "/robot_state"      [shape = box, label = "/robot_state\nmy_custom_msgs/RobotState"];
+
+    // —— 节点（椭圆） ——
+    "robot_node" [shape = ellipse, style = filled, fillcolor = "#eaf2fb"];
+    "sub_node"   [shape = ellipse, style = filled, fillcolor = "#eaf2fb"];
+
+    // —— 数据流 ——
+    "/cmd_vel"          -> "robot_node";
+    "/cmd_vel"          -> "sub_node";
+    "/obstacle"         -> "robot_node";
+    "/drive_status"     -> "robot_node";
+    "/ground_condition" -> "robot_node";
+    "robot_node"        -> "/robot_state";
+}

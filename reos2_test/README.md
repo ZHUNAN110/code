@@ -34,6 +34,8 @@
                                    └─────────────────────┘
 ```
 
+![reos2_test 系统结构图（rqt_graph）](docs/rqt_graph.png)
+
 **数据流一句话**：外部节点把速度指令（`/cmd_vel`）、障碍物（`/obstacle`）、驱动器状态（`/drive_status`）、地面状态（`/ground_condition`）发给 `robot_node`，`robot_node` 做限幅 + 安全约束 + 差分逆解算，把实际运动状态（`/robot_state`）发布给上层监控。
 
 > 仓库内只实现了 `robot_node` 和两个教程节点（`sub_node`、`pub_node`）；四个"外部"节点是数据来源，需自行提供（或用 `ros2 topic pub` 手动模拟，见文末示例）。
