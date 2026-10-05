@@ -44,5 +44,9 @@ ament_target_dependencies(fake_data_publisher rclcpp sensor_msgs nav_msgs tf2_ms
 install(TARGETS analyzer_node display_node fake_data_publisher
   DESTINATION lib/${PROJECT_NAME})
 
+# 安装 launch 文件，让 ros2 launch 能直接找到
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME})
+
 ament_export_dependencies(rosidl_default_runtime)
 ament_package()
