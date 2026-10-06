@@ -1,6 +1,7 @@
 # 一键启动分析系统，可用参数切换「假数据 / 真雷达」
 # 用假数据（默认）：ros2 launch my_lidar_analysis system.launch.py
 # 用真雷达：         ros2 launch my_lidar_analysis system.launch.py use_fake_data:=false
+import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
@@ -29,13 +30,22 @@ def generate_launch_description():
     )
 
     # —— 真雷达：livox 驱动（只在 use_fake_data=false 时启动）——
-    # TODO: 接上雷达后，把 xfer_format 和雷达配置文件路径最终确定
     livox_driver = Node(
         package='livox_ros_driver2',
         executable='livox_ros_driver2_node',
         name='livox_lidar_publisher',
         output='screen',
-        parameters=[{'xfer_format': 4}],   # 4 = 同时发 CustomMsg 和 PointCloud2
+        parameters=[{
+            'xfer_format': 4,        # 4 = 同时发 PointCloud2 + CustomMsg + IMU
+            'multi_topic': 0,        # 0 = 所有雷达共用一个话题
+            'data_src': 0,           # 0 = 真实雷达
+            'publish_freq': 10.0,    # 点云发布频率
+            'frame_id': 'livox_frame',
+            # 雷达连接配置：写死了雷达 IP 192.168.1.130、本机 IP 192.168.1.41
+            'user_config_path': os.path.join(
+                get_package_share_directory('livox_ros_driver2'),
+                'config', 'MID360_config.json'),
+        }],
         condition=UnlessCondition(use_fake_data),
     )
 

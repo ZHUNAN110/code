@@ -1,5 +1,8 @@
 # CMake 构建产物
 build/
+install/
+
+
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
@@ -16,3 +19,11 @@ test
 .vscode/
 .idea/
 *.swp
+
+# ROS2 / 雷达运行时产物（不提交）
+radar_ws/log/
+radar_ws/src/FAST_LIO/Log/
+radar_ws/src/FAST_LIO/PCD/
+radar_ws/src/FAST_LIO/doc/
+
+
